@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <!-- <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" /> -->
+  <link rel="stylesheet" href="form.css" />
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+</head>
+
+<body>
+  <section class="container">
+    <header>Complaint Form</header>
+    <form id="imageUploadForm" method="post" enctype="multipart/form-data" class="form">
+      <div class="input-box">
+        <label>Full Name</label>
+        <input type="text" placeholder="Enter full name" name="name" id="name" required />
+      </div>
+
+      <div class="input-box">
+        <label>Email Address</label>
+        <input type="email" placeholder="Enter email address" name="email" id="email" required />
+      </div>
+
+      <div class="column">
+        <div class="input-box">
+          <label>Phone Number</label>
+          <input type="number" placeholder="Enter phone number" name="phone" id="phone" required />
+        </div>
+        <div class="input-box">
+          <label>Agreement Number</label>
+          <input type="number" placeholder="Enter Agreement number" name="Agreement" id="Agreement" required />
+        </div>
+      </div>
+      <div class="input-box">
+        <label>Department</label>
+        <div class="select-box">
+          <select name="Department" id="Department" required>
+           
+            <option>Two Wheeler</option>
+            <option>Three Wheeler</option>
+            <option>Tractor</option>
+            <option>Used Cars</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-box">
+        <label>Category</label>
+        <div class="select-box">
+          <select name="Category" id="Category" required>
+            
+            <option>General Issue</option>
+            <option>Intrest Rate</option>
+            <option>Loan Issue</option>
+            <option>Payment Issue</option>
+            <option>Personal Details Issue</option>
+          </select>
+        </div>
+      </div>
+      <div class="input-box">
+        <label>Please Explain your issue </label>
+        <br><br>
+        <textarea name="issue" id="issue" cols="90" rows="5"></textarea>
+      </div>
+      <input type="file" name="image" id="imageInput" accept="image/*" />
+      <button type="submit">Submit</button>
+    </form>
+    <!-- <form id="imageUploadForm" action="/form" method="post" enctype="multipart/form-data">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required /><br />
+      
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required /><br />
+      
+      <input type="file" name="image" id="imageInput" accept="image/*" /><br />
+      
+      <button type="submit">Upload and Send Email</button>
+    </form> -->
+  </section>
+</body>
+<script>
+
+
+document.getElementById('imageUploadForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append('name', document.getElementById('name').value);
+      formData.append('email', document.getElementById('email').value);
+      formData.append('phone', document.getElementById('phone').value);
+      formData.append('Agreement', document.getElementById('Agreement').value);
+      formData.append('Department', document.getElementById('Department').value);
+      formData.append('Category', document.getElementById('Category').value);
+      formData.append('issue', document.getElementById('issue').value);
+      formData.append('image', document.getElementById('imageInput').files[0]);
+      
+
+      fetch('/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Image uploaded successfully and email sent!');
+        } else {
+          alert('Failed to upload image and send email.');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  
+</script>
+
+</html>

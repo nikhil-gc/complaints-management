@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f6c7132d05.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script defer src="script.js"></script>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <title>Admin panel</title>
+    <script>
+        var temp = '<%= linechart %>';
+        var linechart = temp.split(",").map(Number);
+        var temp1 = '<%= piechart %>';
+        var piechart = temp1.split(",").map(Number);
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="topbar">
+            <div class="logo">
+                <h2>TVS Credit</h2>
+            </div>
+            <div class="search">
+                <h2><%=department %> Complaints</h2>
+                <!-- <input type="text" name="search" placeholder="search here">
+                <label for="search"><i class="fas fa-search"></i></label> -->
+            </div>
+            <i class="fas fa-bell"></i>
+            <div class="user">
+                <img src="images/user.png" alt="">
+            </div>
+        </div>
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a href="/">
+                        <i class="fas fa-th-large"></i>
+                        <div>Dashboard</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="complaint">
+                        <i class="fa-solid fa-list-check"></i>
+                        <div>Complaints</div>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="analytics">
+                        <i class="fas fa-chart-bar"></i>
+                        <div>Analytics</div>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="#">
+                        <i class="fas fa-question"></i>
+                        <div>Help</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/login">
+                        <i class="fa-solid fa-left-long"></i>
+                        <div>Log Out</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="main">
+            <div class="cards">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="number">
+                            <%= complaints[0] %>
+                        </div>
+                        <div class="card-name">Total Complaints</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="number">
+                            <%= complaints[1] %>
+                        </div>
+                        <div class="card-name">Complaints Resolved</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="number">
+                            <%= complaints[2] %>
+                        </div>
+                        <div class="card-name">Pending Compliants</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fa-solid fa-list"></i>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="number">
+                            <%= complaints[3] %> %
+                        </div>
+                        <div class="card-name">Resolution Rate</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fa-solid fa-gauge"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="charts">
+                <div class="chart">
+                    <h2>complaints (past 12 months)</h2>
+                    <div>
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart doughnut-chart">
+                    <h2>Categories</h2>
+                    <div>
+                        <canvas id="doughnut"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script src="chart1.js"></script>
+    <script src="chart2.js"></script>
+    <!-- <%= linechart %> -->
+</body>
+
+</html>

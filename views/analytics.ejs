@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/f6c7132d05.js" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script defer src="script.js"></script>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+    <title>Admin panel</title>
+    <script>
+        var temp = '<%= linechart %>';
+        var linechart = temp.split(",").map(Number);
+        var temp1 = '<%= piechart %>';
+        var piechart = temp1.split(",").map(Number);
+        var temp1 = '<%= weeklyCount %>';
+        var weekchart = temp1.split(",").map(Number);
+        console.log(piechart)
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="topbar">
+            <div class="logo">
+                <h2>TVS Credit</h2>
+            </div>
+            <div class="search">
+                <h2><%=department%> Complaints </h2>
+                <!-- <input type="text" name="search" placeholder="search here">
+                <label for="search"><i class="fas fa-search"></i></label> -->
+            </div>
+            <i class="fas fa-bell"></i>
+            <div class="user">
+                <img src="images/user.png" alt="">
+            </div>
+        </div>
+        <div class="sidebar">
+            <ul>
+                <li>
+                    <a href="/">
+                        <i class="fas fa-th-large"></i>
+                        <div>Dashboard</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="complaint">
+                        <i class="fa-solid fa-list-check"></i>
+                        <div>Complaints</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="analytics">
+                        <i class="fas fa-chart-bar"></i>
+                        <div>Analytics</div>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <i class="fas fa-question"></i>
+                        <div>Help</div>
+                    </a>
+                </li>
+                <li>
+                    <a href="/login">
+                        <i class="fa-solid fa-left-long"></i>
+                        <div>Log Out</div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="main">
+            <!-- <label for="selectOption">Select an option:</label>
+            <select id="selectOption" onchange="toggleDiv()">
+                <option value="none">Select an option</option>
+                <option value="division1">Monthly analysis</option>
+                <option value="division2">Weekly analysis</option>
+            </select> -->
+            <div class="cards">
+                <div class="card clickable-div" id="monthly" onclick="toggleDiv('monthly')">
+                    <div class="card-content">
+                        <div class="card-name">Monthly Analysis (LineChart)</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                </div>
+                <div class="card clickable-div" id="weekly" onclick="toggleDiv('weekly')">
+                    <div class="card-content">
+                        <div class="card-name">Weekly Analysis (Linechart)</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                    </div>
+                </div>
+                <div class="card clickable-div" id="category" onclick="toggleDiv('category')">
+                    <div class="card-content">
+                        <div class="card-name">Category wise Analysis (piechart)</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                </div>
+                <div class="card clickable-div" id="barchart" onclick="toggleDiv('barchart')">
+                    <div class="card-content">
+                        <div class="card-name">Category wise Analysis (barchart)</div>
+                    </div>
+                    <div class="icon-box">
+                        <i class="fa-solid fa-chart-simple"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts">
+                <div class="chart" id="division1">
+                    <h2>complaints (past 12 months)</h2>
+                    <div>
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart" id="division2" style="display: none;">
+                    <h2>complaints (last month)</h2>
+                    <div>
+                        <canvas id="WeekChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart" id="division3" style="display: none; width: 400px;">
+                    <h2>Categories</h2>
+                    <div>
+                        <canvas id="doughnut"></canvas>
+                    </div>
+                </div>
+                <div class="chart" id="division4" style="display: none;">
+                    <h2>Categories</h2>
+                    <div>
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+               
+
+            
+            <div class="chart chatbox">
+                <h2>chat with the chart</h2>
+                <div class="chat-container" id="chat-container" style="white-space: pre-wrap;"></div>
+    <!-- <div class="loader-container" id="loader-container">
+        <div class="loader"></div>
+    </div> -->
+    <div class="loader-container" id="loader-container">
+        <div class="loader">
+            <!-- <p>Generating....</p> -->
+        </div>
+    </div>
+    
+    <div>
+        <input type="text" id="user-input" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <script src="chart1.js"></script>
+    <script src="chart2.js"></script>
+    <script src="chart3.js"></script>
+    <script src="chart4.js"></script>
+    <!-- <%= linechart %> -->
+  <!-- <script src="chatbox.js"></script> -->
+</body>
+
+</html>
